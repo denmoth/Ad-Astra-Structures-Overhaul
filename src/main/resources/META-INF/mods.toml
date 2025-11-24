@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT License"
+
+[[mods]]
+modId="aso"
+version="0.1.0"
+displayName="Ad Astra: Structures Overhaul"
+displayURL="https://curseforge.com/mod/ad-astra-structures-overhaul"
+logoFile="logo.png"
+credits=""
+authors="Denmoth"
+description='''
+Ad Astra: Structures Overhaul adds new atmospheric structures to Ad Astra worlds, enhancing exploration and environmental variety. Lightweight, optimized, and fully compatible with modpacks.
+'''
+displayTest="IGNORE_SERVER_VERSION"
+
+# Start of user code block mod configuration
+# End of user code block mod configuration
+
+[[dependencies.aso]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1]"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.aso]]
+    modId="ad_astra"
+    mandatory=true
+    versionRange="[1.15.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+# Start of user code block dependencies configuration
+# End of user code block dependencies configuration

@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+}
+
+group = 'net.denmoth.aso'
+version = '0.1.0'
+archivesBaseName = 'aso'
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            args '--username', 'DevPlayer'
+            mods {
+                aso {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run_server')
+            args '--nogui'
+            mods {
+                aso {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+repositories {
+    maven { url = "https://maven.minecraftforge.net" }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.20.1-47.2.20"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes([
+            'Specification-Title'   : 'Ad Astra: Structures Overhaul',
+            'Specification-Vendor'  : 'Denmoth',
+            'Specification-Version' : version,
+            'Implementation-Title'  : 'ASO',
+            'Implementation-Version': version,
+            'Implementation-Vendor' : 'Denmoth'
+        ])
+    }
+}
+
+jar.finalizedBy('copyToRunMods')
+
+tasks.register('copyToRunMods', Copy) {
+    dependsOn jar
+    from("$buildDir/libs/${archivesBaseName}-${version}.jar")
+    into("$projectDir/run/mods")
+}
+
+tasks.register('devrun') {
+    group = "development"
+    description = "Builds the mod, copies to run/mods, and runs client."
+    dependsOn 'build', 'copyToRunMods', 'runClient'
+}
